@@ -34,3 +34,15 @@ class Administrador(Usuario):
         else:
             print(f"Usuário {usuario.nome} não encontrado.")
 
+class Cliente(Usuario):
+    def __init__(self, id_usuario, nome, cpf, id_cliente, email, telefone, senha):
+        super().__init__(id_usuario, nome, cpf)
+        self.id_cliente = id_cliente
+        self.email = email
+        self.telefone = telefone
+        self.senha = senha
+        self.pedidos = []
+    
+    def pedir_encomenda(self, pedido):
+        pass
+        print(f"Cliente {self.nome} pediu encomenda (a ser detalhado).")
