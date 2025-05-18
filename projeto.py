@@ -33,6 +33,10 @@ class Administrador(Usuario):
             print(f"Admin {self.nome} excluiu {usuario.nome}.")
         else:
             print(f"Usuário {usuario.nome} não encontrado.")
+    
+    def guardar_usuario(self):
+        print(f"Administrador {self.nome} acessou a lista de usuários.")
+        return self.lista_usuarios # Agora retorna a lista
 
 class Cliente(Usuario):
     def __init__(self, id_usuario, nome, cpf, id_cliente, email, telefone, senha):
