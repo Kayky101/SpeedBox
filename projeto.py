@@ -50,3 +50,21 @@ class Cliente(Usuario):
     def pedir_encomenda(self, pedido):
         pass
         print(f"Cliente {self.nome} pediu encomenda (a ser detalhado).")
+        
+class Entregador(Usuario):
+    def __init__(self, id_usuario, nome, cpf, id_entregador, cnh, meio_transporte, senha_entregador):
+        super().__init__(id_usuario, nome, cpf)
+        self.id_entregador = id_entregador
+        self.cnh = cnh
+        self.meio_transporte = meio_transporte
+        self.senha = senha_entregador
+        self.encomenda_atual = None #placeholder para o pedido
+        
+    def atribuir_pedido(self, pedido):
+        pass
+    
+    def relacionar_transporte(self):
+        if self.encomenda_atual:
+            print(f"Entregador {self.nome} usará o meio de transporte: {self.meio_transporte} para entregar a encomenda {self.encomenda_atual}.")
+        else:
+            print(f"Entregador {self.nome} ({self.meio_transporte}) aguardando pedido.")   
