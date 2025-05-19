@@ -19,14 +19,12 @@ class Administrador(Usuario):
         self.lista_usuarios = []
 
     def cadastrar_usuario(self, usuario):
-        # Lógica simples de adição, sem muita validação por enquanto
         if isinstance(usuario, Usuario):
             self.lista_usuarios.append(usuario)
             print(f"Admin {self.nome} cadastrou {usuario.nome}.")
         else:
             print("Erro: Objeto inválido.")
 
-    # Em class Administrador:
     def excluir_usuario(self, usuario):
         if not isinstance(usuario, Usuario):
             print("Erro: Tentativa de excluir objeto inválido.")
@@ -39,7 +37,7 @@ class Administrador(Usuario):
     
     def guardar_usuario(self):
         print(f"Administrador {self.nome} acessou a lista de usuários.")
-        return self.lista_usuarios # Agora retorna a lista
+        return self.lista_usuarios
 
 class Cliente(Usuario):
     def __init__(self, id_usuario, nome, cpf, id_cliente, email, telefone, senha):
@@ -64,7 +62,7 @@ class Entregador(Usuario):
         self.cnh = cnh
         self.meio_transporte = meio_transporte
         self.senha = senha_entregador
-        self.encomenda_atual = None #placeholder para o pedido
+        self.encomenda_atual = None 
         
     def atribuir_pedido(self, pedido):
         if isinstance(pedido, Pedido):
@@ -82,10 +80,10 @@ class Entregador(Usuario):
 class Pedido:
     def __init__(self, id_pedido, cliente_obj, produto, origem):
         self.id_pedido = id_pedido
-        self.cliente = cliente_obj # Associação com Cliente
+        self.cliente = cliente_obj 
         self.produto = produto
         self.origem = origem
-        self.status = "Pendente" # Status inicial
+        self.status = "Pendente" 
     
     def mostrar_detalhes(self):
         print(f"--- Pedido ID: {self.id_pedido} ---")
@@ -101,7 +99,7 @@ class Interface:
 
     def calcular_frete(self, origem, destino, peso_kg):
         taxa_base = 5.0
-        custo_distancia = 10.0 # Fixo por enquanto
+        custo_distancia = 10.0 
         custo_peso = peso_kg * 1.5
         frete = taxa_base + custo_distancia + custo_peso
         print(f"Frete de '{origem}' para '{destino}' ({peso_kg}kg): R$ {frete:.2f}")
