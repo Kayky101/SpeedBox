@@ -48,8 +48,11 @@ class Cliente(Usuario):
         self.pedidos = []
     
     def pedir_encomenda(self, pedido):
-        pass
-        print(f"Cliente {self.nome} pediu encomenda (a ser detalhado).")
+        if isinstance(pedido, Pedido):
+            self.pedidos.append(pedido)
+            print(f"Cliente {self.nome} fez o pedido ID: {pedido.id_pedido}.")
+        else:
+            print("Erro: Objeto de pedido inválido.")
         
 class Entregador(Usuario):
     def __init__(self, id_usuario, nome, cpf, id_entregador, cnh, meio_transporte, senha_entregador):
@@ -61,13 +64,17 @@ class Entregador(Usuario):
         self.encomenda_atual = None #placeholder para o pedido
         
     def atribuir_pedido(self, pedido):
-        pass
-    
+        if isinstance(pedido, Pedido):
+            self.encomenda_atual = pedido
+            print(f"Entregador {self.nome} atribuído ao pedido ID: {pedido.id_pedido}.")
+        else:
+            print("Erro: Objeto de pedido inválido para atribuição.")
+
     def relacionar_transporte(self):
         if self.encomenda_atual:
-            print(f"Entregador {self.nome} usará o meio de transporte: {self.meio_transporte} para entregar a encomenda {self.encomenda_atual}.")
+            print(f"Entregador {self.nome} está utilizando {self.meio_transporte} para a entrega do pedido {self.encomenda_atual.id_pedido}.")
         else:
-            print(f"Entregador {self.nome} ({self.meio_transporte}) aguardando pedido.")
+            print(f"Entregador {self.nome} não possui encomenda atual para relacionar transporte.")
 
 class Pedido:
     def __init__(self, id_pedido, cliente_obj, produto, origem):
