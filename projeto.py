@@ -26,13 +26,16 @@ class Administrador(Usuario):
         else:
             print("Erro: Objeto inválido.")
 
+    # Em class Administrador:
     def excluir_usuario(self, usuario):
-        # Lógica simples de remoção
+        if not isinstance(usuario, Usuario):
+            print("Erro: Tentativa de excluir objeto inválido.")
+            return
         if usuario in self.lista_usuarios:
             self.lista_usuarios.remove(usuario)
-            print(f"Admin {self.nome} excluiu {usuario.nome}.")
+            print(f"Administrador {self.nome} excluiu o usuário: {usuario.nome}.")
         else:
-            print(f"Usuário {usuario.nome} não encontrado.")
+            print(f"Usuário {getattr(usuario, 'nome', 'desconhecido')} não encontrado para exclusão.") # Mais seguro
     
     def guardar_usuario(self):
         print(f"Administrador {self.nome} acessou a lista de usuários.")
