@@ -67,4 +67,20 @@ class Entregador(Usuario):
         if self.encomenda_atual:
             print(f"Entregador {self.nome} usará o meio de transporte: {self.meio_transporte} para entregar a encomenda {self.encomenda_atual}.")
         else:
-            print(f"Entregador {self.nome} ({self.meio_transporte}) aguardando pedido.")   
+            print(f"Entregador {self.nome} ({self.meio_transporte}) aguardando pedido.")
+
+class Pedido:
+    def __init__(self, id_pedido, cliente_obj, produto, origem):
+        self.id_pedido = id_pedido
+        self.cliente = cliente_obj # Associação com Cliente
+        self.produto = produto
+        self.origem = origem
+        self.status = "Pendente" # Status inicial
+    
+    def mostrar_detalhes(self):
+        print(f"--- Pedido ID: {self.id_pedido} ---")
+        print(f"Cliente: {self.cliente.nome}")
+        print(f"Produto: {self.produto}")
+        print(f"Origem: {self.origem}")
+        print(f"Status: {self.status}")
+        print("-------------------------")
