@@ -114,3 +114,46 @@ class Interface:
             status_simulado = "Em trânsito"
             print(f"Rastreando Pedido ID {id_pedido}: Status '{status_simulado}'. (Simulado)")
             return f"Status: {status_simulado} (Simulado)"
+    
+    # --- Demonstração de Uso ---
+if __name__ == "__main__":
+    print("--- Iniciando Demonstração ---")
+    # Criando usuários
+    admin1 = Administrador(1, "Alice", "111.111.111-11", "Gerente")
+    cliente1 = Cliente(2, "Beto", "222.222.222-22", 101, "beto@email.com", "99999-8888", "senha123")
+    entregador1 = Entregador(4, "Daniel", "444.444.444-44", 201, "CNH123", "Moto", "entpass")
+
+    # Admin em ação
+    admin1.login()
+    admin1.cadastrar_usuario(cliente1)
+    admin1.cadastrar_usuario(entregador1)
+    print(f"Usuários guardados pelo admin: {[u.nome for u in admin1.guardar_usuario()]}")
+    admin1.logout()
+    print("-" * 20)
+
+    # Cliente em ação
+    cliente1.login()
+    pedido_beto_1 = Pedido(1001, cliente1, "Livro OOP", "Livraria Saber")
+    cliente1.pedir_encomenda(pedido_beto_1)
+    pedido_beto_1.mostrar_detalhes()
+    cliente1.logout()
+    print("-" * 20)
+
+    # Entregador em ação
+    entregador1.login()
+    entregador1.atribuir_pedido(pedido_beto_1)
+    # Simulando mudança de status pelo entregador
+    if entregador1.encomenda_atual:
+        entregador1.encomenda_atual.status = "A caminho"
+    entregador1.relacionar_transporte()
+    entregador1.logout()
+    print("-" * 20)
+
+    # Interface em ação
+    sistema_ui = Interface()
+    sistema_ui.calcular_frete("Livraria Saber", "Casa do Beto", 0.5)
+    sistema_ui.rastrear_entrega(1001, pedido_beto_1)
+
+    # Teste de rastreio sem objeto direto
+    sistema_ui.rastrear_entrega(1002) # Pedido não existente ou sem objeto
+    print("--- Fim da Demonstração ---")
