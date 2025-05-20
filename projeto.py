@@ -158,3 +158,125 @@ if __name__ == "__main__":
     # Teste de rastreio sem objeto direto
     sistema_ui.rastrear_entrega(1002) # Pedido não existente ou sem objeto
     print("--- Fim da Demonstração ---")
+
+
+
+
+
+
+
+
+
+
+
+class FormaPagamento:
+    def __init__(self, id_pagamento, tipo, descricao, ativo=True):
+        self.id_pagamento = id_pagamento
+        self.tipo = tipo
+        self.descricao = descricao
+        self.ativo = ativo
+
+    def validar(self):
+        return self.ativo
+
+    def processar_pagamento(self):
+        if self.validar():
+            print(f"Pagamento {self.tipo} processado com sucesso.")
+            return True
+        print("Pagamento inválido.")
+        return False
+
+    def gerar_notas(self):
+        return f"Nota gerada para pagamento {self.tipo}"
+
+
+class Encomenda:
+    def __init__(self, id_encomenda, origem, destino, forma_pagamento):
+        self.id = id_encomenda
+        self.origem = origem
+        self.destino = destino
+        self.status = "Criada"
+        self.historico = [self.status]
+        self.forma_pagamento = forma_pagamento
+        self.pedido = None
+
+    def atualizar_pedido(self, novo_status):
+        self.status = novo_status
+        self.historico.append(novo_status)
+        print(f"Encomenda ID {self.id} atualizada para status: {novo_status}")
+
+
+class SimuladorEntrega:
+    def __init__(self, meio_transporte, entregador):
+        self.meio_transporte = meio_transporte
+        self.entregador = entregador
+
+    def calcular_tempo(self, distancia):
+        tempo = distancia / self.meio_transporte.velocidade
+        print(f"Tempo estimado de entrega: {tempo:.2f} horas")
+        return tempo
+
+    def calcular_custo(self):
+        custo = self.meio_transporte.custo
+        print(f"Custo estimado de transporte: R$ {custo:.2f}")
+        return custo
+
+
+class MeioTransporte:
+    def __init__(self, tipo, velocidade, custo):
+        self.tipo = tipo
+        self.velocidade = velocidade
+        self.custo = custo
+
+    def calculo_tempo_estimado(self, distancia):
+        sim = SimuladorEntrega(self, None)
+        return sim.calcular_tempo(distancia)
+
+    def calculo_custo_transporte(self):
+        sim = SimuladorEntrega(self, None)
+        return sim.calcular_custo()
+
+
+class Carro(MeioTransporte):
+    def __init__(self, modelo, marca, capacidade_max, velocidade_max):
+        super().__init__("Carro", float(velocidade_max), 30.0)
+        self.modelo = modelo
+        self.marca = marca
+        self.capacidade_max = capacidade_max
+        self.velocidade_max = velocidade_max
+
+
+class Moto(MeioTransporte):
+    def __init__(self, modelo, marca, capacidade_max, velocidade_max):
+        super().__init__("Moto", float(velocidade_max), 15.0)
+        self.modelo = modelo
+        self.marca = marca
+        self.capacidade_max = capacidade_max
+        self.velocidade_max = velocidade_max
+
+
+class Caminhao(MeioTransporte):
+    def __init__(self, modelo, marca, capacidade_max, velocidade_max):
+        super().__init__("Caminhão", float(velocidade_max), 60.0)
+        self.modelo = modelo
+        self.marca = marca
+        self.capacidade_max = capacidade_max
+        self.velocidade_max = velocidade_max
+
+
+class Transportadora:
+    def __init__(self, cnpj, endereco):
+        self.cnpj = cnpj
+        self.endereco = endereco
+        self.meios_transporte = []
+
+    def adicionar_meio_transporte(self, meio):
+        if isinstance(meio, MeioTransporte):
+            self.meios_transporte.append(meio)
+            print(f"Transporte {meio.tipo} adicionado à transportadora.")
+        else:
+            print("Transporte inválido.")
+
+    def listar_meio_transporte(self):
+        return self.meios_transporte
+
