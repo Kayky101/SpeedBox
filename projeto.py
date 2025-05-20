@@ -115,56 +115,7 @@ class Interface:
             status_simulado = "Em trânsito"
             print(f"Rastreando Pedido ID {id_pedido}: Status '{status_simulado}'. (Simulado)")
             return f"Status: {status_simulado} (Simulado)"
-    
-    # --- Demonstração de Uso ---
-if __name__ == "__main__":
-    print("--- Iniciando Demonstração ---")
-    # Criando usuários
-    admin1 = Administrador(1, "Alice", "111.111.111-11", "Gerente")
-    cliente1 = Cliente(2, "Beto", "222.222.222-22", 101, "beto@email.com", "99999-8888", "senha123")
-    entregador1 = Entregador(4, "Daniel", "444.444.444-44", 201, "CNH123", "Moto", "entpass")
-
-    # Admin em ação
-    admin1.login()
-    admin1.cadastrar_usuario(cliente1)
-    admin1.cadastrar_usuario(entregador1)
-    print(f"Usuários guardados pelo admin: {[u.nome for u in admin1.guardar_usuario()]}")
-    admin1.logout()
-    print("-" * 20)
-
-    # Cliente em ação
-    cliente1.login()
-    pedido_beto_1 = Pedido(1001, cliente1, "Livro OOP", "Livraria Saber")
-    cliente1.pedir_encomenda(pedido_beto_1)
-    pedido_beto_1.mostrar_detalhes()
-    cliente1.logout()
-    print("-" * 20)
-
-    # Entregador em ação
-    entregador1.login()
-    entregador1.atribuir_pedido(pedido_beto_1)
-    # Simulando mudança de status pelo entregador
-    if entregador1.encomenda_atual:
-        entregador1.encomenda_atual.status = "A caminho"
-    entregador1.relacionar_transporte()
-    entregador1.logout()
-    print("-" * 20)
-
-    # Interface em ação
-    sistema_ui = Interface()
-    sistema_ui.calcular_frete("Livraria Saber", "Casa do Beto", 0.5)
-    sistema_ui.rastrear_entrega(1001, pedido_beto_1)
-
-    # Teste de rastreio sem objeto direto
-    sistema_ui.rastrear_entrega(1002) # Pedido não existente ou sem objeto
-    print("--- Fim da Demonstração ---")
-
-
-
-
-
-
-
+        
 
 
 
@@ -228,6 +179,9 @@ class MeioTransporte:
         self.velocidade = velocidade
         self.custo = custo
 
+    def __str__(self):
+        return f"{self.tipo} (Velocidade: {self.velocidade} km/h, Custo: R$ {self.custo:.2f})"
+
     def calculo_tempo_estimado(self, distancia):
         sim = SimuladorEntrega(self, None)
         return sim.calcular_tempo(distancia)
@@ -279,4 +233,159 @@ class Transportadora:
 
     def listar_meio_transporte(self):
         return self.meios_transporte
+    
+
+
+
+
+
+
+
+
+    
+#exemplo de uso
+if __name__ == "__main__":
+    #criar cliente
+    cliente1 = Cliente(id_usuario=1, nome="Alice", cpf="12345678901", id_cliente="C001",
+                    email="alice@email.com", telefone="99999-9999", senha="senha123")
+    cliente1.login()
+
+    #criar pedido
+    pedido1 = Pedido(id_pedido="P001", cliente_obj=cliente1, produto="Notebook", origem="São Paulo")
+    cliente1.pedir_encomenda(pedido1)
+
+    #criar forma de pagamento
+    pagamento = FormaPagamento(id_pagamento="PG001", tipo="Cartão de Crédito", descricao="Mastercard")
+    pagamento.processar_pagamento()
+
+    #criar encomenda associada ao pedido
+    encomenda = Encomenda(id_encomenda="E001", origem=pedido1.origem, destino="Rio de Janeiro", forma_pagamento=pagamento)
+    encomenda.pedido = pedido1
+
+    #criar transportadora e adicionar meio de transporte
+    transportadora = Transportadora(cnpj="12345678000100", endereco="Av. Central, 1000")
+    moto = Moto(modelo="Yamaha XTZ", marca="Yamaha", capacidade_max=50, velocidade_max=80)
+    transportadora.adicionar_meio_transporte(moto)
+
+    #criar entregador
+    entregador = Entregador(id_usuario=2, nome="Carlos", cpf="98765432100", id_entregador="E123",
+                            cnh="AB123456", meio_transporte=moto, senha_entregador="entrega456")
+    entregador.login()
+    entregador.atribuir_pedido(pedido1)
+    entregador.relacionar_transporte()
+
+    #simular entrega
+    simulador = SimuladorEntrega(meio_transporte=moto, entregador=entregador)
+    simulador.calcular_tempo(distancia=400) 
+    simulador.calcular_custo()
+
+    #atualizar status da encomenda
+    encomenda.atualizar_pedido("Saiu para entrega")
+    encomenda.atualizar_pedido("Entregue")
+
+    #usar interface para rastrear
+    interface = Interface()
+    interface.rastrear_entrega(id_pedido="P001", pedido_obj=pedido1)
+    interface.calcular_frete(origem="São Paulo", destino="Rio de Janeiro", peso_kg=3.5)
+
+
+
+
+
+
+
+
+
+    # print("--- Iniciando Demonstração ---")
+    # # Criando usuários
+    # admin1 = Administrador(1, "Alice", "111.111.111-11", "Gerente")
+    # cliente1 = Cliente(2, "Beto", "222.222.222-22", 101, "beto@email.com", "99999-8888", "senha123")
+    # entregador1 = Entregador(4, "Daniel", "444.444.444-44", 201, "CNH123", "Moto", "entpass")
+
+    # # Admin em ação
+    # admin1.login()
+    # admin1.cadastrar_usuario(cliente1)
+    # admin1.cadastrar_usuario(entregador1)
+    # print(f"Usuários guardados pelo admin: {[u.nome for u in admin1.guardar_usuario()]}")
+    # admin1.logout()
+    # print("-" * 20)
+
+    # # Cliente em ação
+    # cliente1.login()
+    # pedido_beto_1 = Pedido(1001, cliente1, "Livro OOP", "Livraria Saber")
+    # cliente1.pedir_encomenda(pedido_beto_1)
+    # pedido_beto_1.mostrar_detalhes()
+    # cliente1.logout()
+    # print("-" * 20)
+
+    # # Entregador em ação
+    # entregador1.login()
+    # entregador1.atribuir_pedido(pedido_beto_1)
+    # # Simulando mudança de status pelo entregador
+    # if entregador1.encomenda_atual:
+    #     entregador1.encomenda_atual.status = "A caminho"
+    # entregador1.relacionar_transporte()
+    # entregador1.logout()
+    # print("-" * 20)
+
+    # # Interface em ação
+    # sistema_ui = Interface()
+    # sistema_ui.calcular_frete("Livraria Saber", "Casa do Beto", 0.5)
+    # sistema_ui.rastrear_entrega(1001, pedido_beto_1)
+
+    # # Teste de rastreio sem objeto direto
+    # sistema_ui.rastrear_entrega(1002) # Pedido não existente ou sem objeto
+    # print("--- Fim da Demonstração ---")
+
+    # print("\n===== [SPEEDBOX - EXEMPLO COMPLETO] =====")
+
+    # # --- Criando meios de transporte ---
+    # moto = Moto("Moto", 60.0, 15.0)
+    # carro = Carro("Carro", 45.0, 25.0)
+
+    # # --- Transportadora registra meios de transporte ---
+    # transportadora = Transportadora("12.345.678/0001-99", "Rua das Entregas, 1000")
+    # transportadora.adicionar_meio_transporte(moto)
+    # transportadora.adicionar_meio_transporte(carro)
+    # transportadora.listar_meios_transporte()
+
+    # # --- Forma de pagamento ---
+    # pagamento = FormaPagamento(1, "Cartão", "Visa Crédito", True)
+    # pagamento.validar()
+    # pagamento.processar_pagamento()
+    # pagamento.gerar_notas()
+
+    # # --- Criando cliente e pedido ---
+    # cliente = Cliente(10, "Joana", "123.456.789-00", 301, "joana@email.com", "9999-0000", "senha")
+    # pedido = Pedido(2001, cliente, "Celular", "Shopping Center")
+    # cliente.pedir_encomenda(pedido)
+
+    # # --- Criando encomenda associada ao pedido ---
+    # encomenda = Encomenda(9001, "Shopping Center", "Rua das Flores, 321", pagamento, pedido)
+    # encomenda.atualizar_pedido("Preparando para envio")
+
+    # # --- Criando entregador ---
+    # entregador = Entregador(20, "Carlos", "987.654.321-00", 401, "CNH98765", moto, "senha456")
+    # entregador.atribuir_pedido(pedido)
+    # entregador.relacionar_transporte()
+
+    # # --- Simulação de Entrega ---
+    # simulador = SimuladorEntrega(moto, entregador)
+    # tempo_estimado = simulador.calcular_tempo(10)  # 10 km
+    # custo_estimado = simulador.calcular_custo()
+
+    # print(f"Tempo estimado: {tempo_estimado:.2f} horas")
+    # print(f"Custo estimado: R$ {custo_estimado:.2f}")
+
+    # # --- Atualizando status da encomenda ---
+    # encomenda.atualizar_pedido("A caminho")
+    # encomenda.atualizar_pedido("Entregue")
+
+    # # --- Interface rastreia pedido ---
+    # ui = Interface()
+    # ui.rastrear_entrega(pedido.id_pedido, pedido)
+
+    # print("===== [FIM DO EXEMPLO] =====")
+
+
 
