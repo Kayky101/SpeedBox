@@ -12,6 +12,7 @@ class Usuario:
     def logout(self):
         self.logado = False
         print(f"{self.nome} realizou logout.")      
+
 class Administrador(Usuario):
     def __init__(self, id_usuario, nome, cpf, cargo):
         super().__init__(id_usuario, nome, cpf)
@@ -33,7 +34,7 @@ class Administrador(Usuario):
             self.lista_usuarios.remove(usuario)
             print(f"Administrador {self.nome} excluiu o usuário: {usuario.nome}.")
         else:
-            print(f"Usuário {getattr(usuario, 'nome', 'desconhecido')} não encontrado para exclusão.") # Mais seguro
+            print(f"Usuário {getattr(usuario, 'nome', 'desconhecido')} não encontrado.")
     
     def guardar_usuario(self):
         print(f"Administrador {self.nome} acessou a lista de usuários.")
@@ -111,7 +112,6 @@ class Interface:
             print(f"Rastreando Pedido ID {id_pedido}: Status '{status}'.")
             return f"Status: {status}"
         else:
-            # Simulação básica se não tiver o objeto
             status_simulado = "Em trânsito"
             print(f"Rastreando Pedido ID {id_pedido}: Status '{status_simulado}'. (Simulado)")
             return f"Status: {status_simulado} (Simulado)"
@@ -243,7 +243,7 @@ class Transportadora:
 #exemplo de uso
 if __name__ == "__main__":
     print("Demonstração do Sistema SpeedBox")
-    print("-" * 40)
+    print("-" * 50)
 
     #criando usuários
     admin1 = Administrador(1, "Alice", "111.111.111-11", "Coordenadora")
@@ -256,7 +256,7 @@ if __name__ == "__main__":
     admin1.cadastrar_usuario(entregador1)
     print(f"Usuários cadastrados: {[u.nome for u in admin1.guardar_usuario()]}")
     admin1.logout()
-    print("-" * 40)
+    print("-" * 50)
 
     #cliente faz login e cria pedido
     cliente1.login()
@@ -264,20 +264,20 @@ if __name__ == "__main__":
     cliente1.pedir_encomenda(pedido1)
     pedido1.mostrar_detalhes()
     cliente1.logout()
-    print("-" * 40)
+    print("-" * 50)
 
     #pagamento
     pagamento = FormaPagamento(5001, "Cartão", "Mastercard Crédito", True)
     pagamento.validar()
     pagamento.processar_pagamento()
     pagamento.gerar_notas()
-    print("-" * 40)
+    print("-" * 50)
 
     #criando encomenda vinculada ao pedido
     encomenda1 = Encomenda(9001, pedido1.origem, "Rua das Rosas, 123", pagamento)
     encomenda1.pedido = pedido1
     encomenda1.atualizar_pedido("Separando no estoque")
-    print("-" * 40)
+    print("-" * 50)
 
     #transportadora e meios de transporte
     moto = Moto("Moto Yamaha", "Yamaha", 60, 12)
@@ -286,7 +286,7 @@ if __name__ == "__main__":
     transportadora.adicionar_meio_transporte(moto)
     transportadora.adicionar_meio_transporte(carro)
     transportadora.listar_meio_transporte()
-    print("-" * 40)
+    print("-" * 50)
 
     #atribuindo meio de transporte ao entregador
     entregador1.meio_transporte = moto
@@ -294,20 +294,20 @@ if __name__ == "__main__":
     entregador1.atribuir_pedido(pedido1)
     entregador1.relacionar_transporte()
     entregador1.logout()
-    print("-" * 40)
+    print("-" * 50)
 
     #simulação de entrega
     simulador = SimuladorEntrega(moto, entregador1)
-    tempo = simulador.calcular_tempo(25)  # distância em km
+    tempo = simulador.calcular_tempo(25)
     custo = simulador.calcular_custo()
     print(f"Tempo estimado: {tempo:.2f} horas")
     print(f"Custo estimado: R$ {custo:.2f}")
-    print("-" * 40)
+    print("-" * 50)
 
     #atualizando status da entrega
     encomenda1.atualizar_pedido("Saiu para entrega")
     encomenda1.atualizar_pedido("Entregue com sucesso")
-    print("-" * 40)
+    print("-" * 50)
 
     #interface do sistema rastreando
     interface = Interface()
