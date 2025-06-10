@@ -35,6 +35,9 @@ class FormaPagamento:
             return True
         print("Pagamento inválido.")
         return False
+    
+    def gerar_notas(self):
+        return f"Nota gerada para pagamento {self.tipo}"
 
 class Encomenda:
     def __init__(self, id_encomenda, origem, destino, forma_pagamento: FormaPagamento):

@@ -9,7 +9,18 @@ class Usuario:
         self.id = id_usuario
         self.nome = nome
         self.cpf = cpf
-        self.logado = False 
+        self.logado = False
+
+    @property
+    def cpf(self):
+        return self._cpf
+
+    @cpf.setter
+    def cpf(self, novo_cpf):
+        if isinstance(novo_cpf, str) and len(novo_cpf) == 14:
+            self._cpf = novo_cpf
+        else:
+            raise ValueError("CPF inválido. Deve conter 14 caracteres.")
 
     def login(self):
         self.logado = True
@@ -31,8 +42,19 @@ class Administrador(Usuario):
             print(f"Admin {self.nome} cadastrou {usuario.nome}.")
         else:
             print("Erro: Objeto inválido.")
+
+    def excluir_usuario(self, usuario):
+        if not isinstance(usuario, Usuario):
+            print("Erro: Tentativa de excluir objeto inválido.")
+            return
+        if usuario in self.lista_usuarios:
+            self.lista_usuarios.remove(usuario)
+            print(f"Administrador {self.nome} excluiu o usuário: {usuario.nome}.")
+        else:
+            print(f"Usuário {getattr(usuario, 'nome', 'desconhecido')} não encontrado.")
     
     def guardar_usuario(self) -> List[Usuario]:
+        print(f"Administrador {self.nome} acessou a lista de usuários.")
         return self.lista_usuarios
 
 class Cliente(Usuario):
@@ -43,6 +65,17 @@ class Cliente(Usuario):
         self.telefone = telefone
         self.senha = senha
         self.pedidos: List['Pedido'] = []
+
+    @property
+    def senha(self):
+        return self._senha
+
+    @senha.setter
+    def senha(self, nova_senha):
+        if isinstance(nova_senha, str) and len(nova_senha) >= 6:
+            self._senha = nova_senha
+        else:
+            raise ValueError("A senha deve ter pelo menos 6 caracteres.")
     
     def pedir_encomenda(self, pedido: 'Pedido'):
         from .pedido import Pedido

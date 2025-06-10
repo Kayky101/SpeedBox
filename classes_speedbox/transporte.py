@@ -5,10 +5,14 @@ class SimuladorEntrega:
 
     def calcular_tempo(self, distancia):
         if self.meio_transporte.velocidade == 0: return float('inf')
-        return distancia / self.meio_transporte.velocidade
+        tempo = distancia / self.meio_transporte.velocidade
+        print(f"Tempo estimado de entrega: {tempo:.2f} horas")
+        return tempo
 
     def calcular_custo(self):
-        return self.meio_transporte.custo
+        custo = self.meio_transporte.custo
+        print(f"Custo estimado de transporte: R$ {custo:.2f}")
+        return custo
 
 class MeioTransporte:
     def __init__(self, tipo, velocidade, custo):
@@ -64,5 +68,10 @@ class Transportadora:
     def adicionar_meio_transporte(self, meio):
         if isinstance(meio, MeioTransporte):
             self.meios_transporte.append(meio)
+            print(f"Transporte {meio.tipo} adicionado à transportadora.")
         else:
             print("Transporte inválido.")
+
+    def listar_meio_transporte(self):
+        return self.meios_transporte
+    

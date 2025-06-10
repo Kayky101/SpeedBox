@@ -5,7 +5,7 @@ from classes_speedbox.usuario import Administrador, Cliente, Entregador
 from classes_speedbox.pedido import Pedido
 from classes_speedbox.transporte import Moto 
 
-# --- Dados Iniciais para Simulação ---
+#dados para simulação
 usuarios_do_sistema = [
     Administrador(1, "Alice", "111.111.111-11", "Coordenadora"),
     Cliente(2, "Cliente1", "222.222.222-22", 101, "cliente1@email.com", "99999-8888", "cliente1-senha"),
