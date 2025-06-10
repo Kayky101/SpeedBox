@@ -92,7 +92,29 @@ class Entregador(Usuario):
         self.cnh = cnh
         self.meio_transporte = meio_transporte
         self.senha = senha_entregador
-        self.encomenda_atual: Optional['Pedido'] = None 
+        self.encomenda_atual: Optional['Pedido'] = None
+
+    @property
+    def cnh(self):
+        return self._cnh
+
+    @cnh.setter
+    def cnh(self, nova_cnh):
+        if isinstance(nova_cnh, str) and len(nova_cnh) >= 7:
+            self._cnh = nova_cnh
+        else:
+            raise ValueError("CNH inválida. Deve conter pelo menos 7 caracteres.")
+
+    @property
+    def senha(self):
+        return self._senha
+
+    @senha.setter
+    def senha(self, nova_senha):
+        if isinstance(nova_senha, str) and len(nova_senha) >= 6:
+            self._senha = nova_senha
+        else:
+            raise ValueError("A senha deve ter pelo menos 6 caracteres.")
         
     def atribuir_pedido(self, pedido: 'Pedido'):
         from .pedido import Pedido

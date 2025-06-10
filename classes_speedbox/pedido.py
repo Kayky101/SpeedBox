@@ -26,6 +26,17 @@ class FormaPagamento:
         self.descricao = descricao
         self.ativo = ativo
 
+    @property
+    def ativo(self):
+        return self._ativo
+
+    @ativo.setter
+    def ativo(self, status):
+        if isinstance(status, bool):
+            self._ativo = status
+        else:
+            raise ValueError("O status 'ativo' deve ser um valor booleano.")
+
     def validar(self):
         return self.ativo
 
