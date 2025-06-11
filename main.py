@@ -9,7 +9,7 @@ from classes_speedbox.transporte import Moto
 usuarios_do_sistema = [
     Administrador(1, "Alice", "111.111.111-11", "Coordenadora"),
     Cliente(2, "Cliente1", "222.222.222-22", 101, "cliente1@email.com", "99999-8888", "cliente1-senha"),
-    Entregador(3, "Carlos Entregador", "333.333.333-33", 201, "CNH123", Moto("Pop", "Honda", 10, 80), "entregador-senha")
+    Entregador(3, "Carlos Entregador", "333.333.333-33", 201, "CNH1234", Moto("Pop", "Honda", 10, 80), "entregador-senha")
 ]
 admin_global = usuarios_do_sistema[0]
 admin_global.cadastrar_usuario(usuarios_do_sistema[1])
